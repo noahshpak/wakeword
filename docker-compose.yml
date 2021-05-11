@@ -1,0 +1,8 @@
+version: "3"
+services:
+  commands_tf_serving:
+    build:
+      context: .
+      dockerfile: commands.dockerfile
+    ports:
+      - "8500:8500"
