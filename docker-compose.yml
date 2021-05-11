@@ -1,5 +1,15 @@
 version: "3"
 services:
+  wsgi:
+    environment: 
+      - GUNICORN_CMD_ARGS=-b 0.0.0.0:5000
+      - TFSERVING_HOSTNAME=commands_tf_serving:8500
+    build:
+      context: .
+      dockerfile: wsgi.dockerfile
+    command: gunicorn 'service.wsgi:start_production()'
+    ports:
+      - "5000:5000"
   commands_tf_serving:
     build:
       context: .
