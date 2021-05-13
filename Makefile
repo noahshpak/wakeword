@@ -6,4 +6,7 @@ show:
 	. venv/bin/activate && saved_model_cli show --dir ml/models/commands/1 --all
 
 build:
-	docker-compose build
+	docker compose build
+
+run: 
+	docker compose up
