@@ -23,7 +23,7 @@ def commands_params() -> GrpcParams:
         input_tensor="input_1",
         output_tensor="dense_1",
         model_spec="commands",
-        model_spec_version=None,  # can be None
+        model_spec_version=None,
         signature="serving_default",
     )
 

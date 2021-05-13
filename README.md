@@ -11,6 +11,6 @@
 *Note the current setup requires Docker!*
 
 
-1. `make create_venv` - create a virtual environemnt
+1. `make venv` - create a virtual environemnt
 2. `make build`
 3. `make run`
