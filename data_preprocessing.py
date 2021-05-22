@@ -31,7 +31,7 @@ def preprocess_audio_files(spec_name, decoded_list):
     augmented_samples = apply_data_augmentation(augmentation_spec, decoded_list)
 
     spectogram_list = np.array([
-        signal.spectogram(sample, SAMPLING_RATE)[2] for sample in augmented_samples
+        signal.spectrogram(sample, SAMPLING_RATE)[2] for sample in augmented_samples
     ])
 
     return spectogram_list
