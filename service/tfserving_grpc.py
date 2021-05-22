@@ -1,7 +1,8 @@
 import os
+from typing import NamedTuple
+
 import grpc
 import numpy as np
-from typing import NamedTuple
 import tensorflow as tf
 from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 

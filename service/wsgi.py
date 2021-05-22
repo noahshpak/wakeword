@@ -1,7 +1,10 @@
 import logging
-from flask import Flask, request
-from service.tfserving_grpc import CommandsServingGrpc
+import sys
+import traceback
 
+from flask import Flask, request
+
+from service.tfserving_grpc import CommandsServingGrpc
 
 app = Flask(__name__)
 
@@ -20,15 +23,20 @@ def allowed_file(filename):
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    if "file" not in request.files:
-        return "Upload a .wav file"
-    file = request.files["file"]
-    if file.filename == "":
-        return "No selected file"
-    if file:
-        confidences, label = commands_model.predict(file.read())
-        print(confidences)
-        return label
+    try:
+        if "file" not in request.files:
+            return "Upload a .wav file"
+        file = request.files["file"]
+        if file.filename == "":
+            return "No selected file"
+        if file:
+            confidences, label = commands_model.predict(file.read())
+            return label
+    except Exception:
+        print("Exception in user code:")
+        print("-" * 60)
+        traceback.print_exc(file=sys.stdout)
+        print("-" * 60)
 
 
 def setup_gunicorn_logging(app):

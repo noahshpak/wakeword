@@ -3,7 +3,7 @@ services:
   wsgi:
     environment: 
       - GUNICORN_CMD_ARGS=-b 0.0.0.0:5000
-      - TFSERVING_HOSTNAME=commands_tf_serving:8501
+      - TFSERVING_HOSTNAME=commands_tf_serving:8500
     build:
       context: .
       dockerfile: wsgi.dockerfile
