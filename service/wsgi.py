@@ -1,20 +1,33 @@
+import io
+import soundfile as sf
 import logging
 import sys
 import traceback
 
-from flask import Flask, request
+from flask import Flask, request, render_template
+
+from flask_socketio import SocketIO
 
 from service.tfserving_grpc import CommandsServingGrpc
 
 app = Flask(__name__)
-
+socketio = SocketIO(app)
 
 commands_model = CommandsServingGrpc()
 
 
 @app.route("/")
 def index():
-    return "Wake Word!"
+    return render_template("index.html")
+
+
+@socketio.on("my event")
+def handle_my_custom_event(json):
+    # print("received json: " + str(json))
+    wav_data = json["data"]["audio"]["data"]
+    confidences, label = commands_model.predict(wav_data)
+    print(confidences, label)
+    socketio.emit("prediction", f"Label: {label}")
 
 
 def allowed_file(filename):
@@ -45,6 +58,12 @@ def setup_gunicorn_logging(app):
     app.logger.setLevel(gunicorn_logger.level)
 
 
+def setup_socketio(app):
+    app = SocketIO(app)
+    return app
+
+
 def start_production():
     setup_gunicorn_logging(app)
+    setup_socketio(app)
     return app

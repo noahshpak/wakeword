@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: wsgi.dockerfile
-    command: gunicorn 'service.wsgi:start_production()'
+    command: gunicorn --worker-class eventlet -w 1 'service.wsgi:start_production()'
     ports:
       - "5000:5000"
   commands_tf_serving:
